@@ -14,7 +14,7 @@ import time
 from fastapi import FastAPI, Request
 from loguru import logger
 
-from api.routes import router as api_router
+from .api import router
 
 # Configuração do logger
 logger.add("logs/app.log", rotation="10 MB", retention="7 days", level="INFO")
@@ -47,18 +47,7 @@ async def request_logging_middleware(request: Request, call_next):
 
 
 # Inclui as rotas da API
-app.include_router(api_router, prefix="/api/v1", tags=["api"])
-
-
-@app.get("/", tags=["root"])
-def root():
-    """
-    Endpoint root da aplicação.
-    """
-    return {
-        "message": "API funcionando! Entre em /docs para ver a documentação da API.",
-        "version": "1.0.0",
-    }
+app.include_router(router, prefix="/api/v1", tags=["api"])
 
 
 @app.get("/health", tags=["health"])
@@ -70,9 +59,3 @@ def health_check():
         "version": "1.0.0",
         "timestamp": time.time(),
     }
-
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, log_level="info")

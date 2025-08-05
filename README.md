@@ -1,21 +1,19 @@
-# API Simples
+# API de Predição de Casas
 
-Uma API RESTful desenvolvida em FastAPI para demonstração de boas práticas de desenvolvimento Python.
+Uma API RESTful desenvolvida em FastAPI para predição de valores de casas usando machine learning.
 
-## 🚀 Características
+## Características
 
 - **FastAPI**: Framework moderno e rápido para APIs
 - **Pydantic**: Validação de dados e serialização
+- **Scikit-learn**: Modelo de machine learning (Random Forest)
 - **Estrutura modular**: Organização clara do código
-- **Testes automatizados**: Cobertura completa com pytest
 - **Logging estruturado**: Sistema de logs configurável
-- **Configuração flexível**: Suporte a YAML e variáveis de ambiente
 - **Documentação automática**: Swagger UI e ReDoc
 - **Tratamento de erros**: Middleware para exceções
-- **CORS configurado**: Suporte a requisições cross-origin
-- **Scripts de automação**: Setup e deploy automatizados
+- **Modelo treinado**: Random Forest para predição de valores
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 api-simples/
@@ -32,34 +30,30 @@ api-simples/
 │   │   └── models.py      # Modelos Pydantic
 │   ├── core/              # Lógica de negócio
 │   │   ├── __init__.py
-│   │   └── business_logic.py
+│   │   ├── house_predictor.py  # Orquestrador de predição
+│   │   ├── business/      # Regras de negócio
+│   │   └── ml_model/      # Modelo de machine learning
+│   │       ├── inference/ # Inferência do modelo
+│   │       └── train/     # Treinamento do modelo
+│   ├── models/            # Modelos treinados
+│   │   └── 20250805/      # Modelo da data específica
 │   ├── services/          # Serviços externos
-│   │   ├── __init__.py
-│   │   └── external_api.py
+│   │   └── __init__.py
 │   └── utils/             # Utilitários
-│       ├── __init__.py
-│       ├── config.py      # Gerenciamento de configurações
-│       └── logger.py      # Sistema de logging
-├── tests/                 # Testes
-│   ├── __init__.py
-│   ├── test_api.py        # Testes da API
-│   └── test_core.py       # Testes da lógica de negócio
+│       └── __init__.py
 ├── config/                # Configurações
-│   └── settings.yaml      # Configurações da aplicação
-├── docs/                  # Documentação
-│   └── api.md             # Documentação da API
-└── scripts/               # Scripts de automação
-    ├── setup.sh           # Script de configuração
-    └── deploy.sh          # Script de deploy
+│   └── settings.py        # Configurações da aplicação
+├── logs/                  # Logs da aplicação
+└── tests/                 # Testes
+    └── __init__.py
 ```
 
-## 🛠️ Instalação
+## Instalação
 
 ### Pré-requisitos
 
-- Python 3.8+
-- pip
-- Git
+- Python 3.12+
+- pip ou uv
 
 ### Configuração Rápida
 
@@ -69,292 +63,164 @@ api-simples/
    cd api-simples
    ```
 
-2. **Execute o script de configuração:**
+2. **Crie um ambiente virtual e instale dependências:**
    ```bash
-   chmod +x scripts/setup.sh
-   ./scripts/setup.sh
-   ```
-
-3. **Ative o ambiente virtual:**
-   ```bash
-   source .venv/bin/activate
+   uv sync
    ```
 
 4. **Execute a aplicação:**
    ```bash
-   python -m src.main
+   make run-api
    ```
 
 5. **Acesse a documentação:**
    - Swagger UI: http://localhost:8000/docs
-   - ReDoc: http://localhost:8000/redoc
 
-### Configuração Manual
-
-Se preferir configurar manualmente:
-
-1. **Crie um ambiente virtual:**
-   ```bash
-   python3 -m venv .venv
-   source .venv/bin/activate
-   ```
-
-2. **Instale as dependências:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Instale dependências de desenvolvimento:**
-   ```bash
-   pip install pytest pytest-cov black flake8 mypy
-   ```
-
-4. **Crie os diretórios necessários:**
-   ```bash
-   mkdir -p logs data
-   ```
-
-## 🚀 Executando a Aplicação
+## Executando a Aplicação
 
 ### Desenvolvimento
 
 ```bash
 # Com hot reload
-uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
-
-# Ou usando o módulo Python
-python -m src.main
+make run-api
 ```
 
 ### Produção
 
 ```bash
-# Usando o script de deploy
-./scripts/deploy.sh deploy
-
-# Ou manualmente
 uvicorn src.main:app --host 0.0.0.0 --port 8000
 ```
 
-## 🧪 Testes
-
-### Executar todos os testes
-
-```bash
-pytest
-```
-
-### Executar com cobertura
-
-```bash
-pytest --cov=src --cov-report=html --cov-report=term
-```
-
-### Executar testes específicos
-
-```bash
-# Testes da API
-pytest tests/test_api.py
-
-# Testes da lógica de negócio
-pytest tests/test_core.py
-
-# Testes com verbose
-pytest -v
-```
-
-## 📊 Qualidade do Código
-
-### Formatação
-
-```bash
-# Verificar formatação
-black --check src/ tests/
-
-# Formatar código
-black src/ tests/
-```
-
-### Linting
-
-```bash
-# Verificar qualidade
-flake8 src/ tests/ --max-line-length=88 --ignore=E203,W503
-```
-
-### Verificação de tipos
-
-```bash
-# Verificar tipos
-mypy src/ --ignore-missing-imports
-```
-
-## 🔧 Configuração
-
-### Variáveis de Ambiente
-
-Crie um arquivo `.env` na raiz do projeto:
-
-```env
-# Configurações de ambiente
-APP_NAME=api-simples
-DEBUG=True
-PORT=8000
-HOST=0.0.0.0
-
-# Configurações de banco de dados
-DATABASE_URL=sqlite:///./data/app.db
-
-# Configurações de API externa
-EXTERNAL_API_URL=https://api.exemplo.com
-EXTERNAL_API_KEY=your_api_key_here
-
-# Configurações de logging
-LOG_LEVEL=INFO
-LOG_FILE=logs/app.log
-
-# Configurações de segurança
-SECRET_KEY=your-secret-key-change-in-production
-```
-
-### Arquivo de Configuração YAML
-
-O arquivo `config/settings.yaml` contém configurações detalhadas da aplicação.
-
-## 📚 Documentação da API
+## Documentação da API
 
 ### Endpoints Principais
 
-- `GET /` - Endpoint raiz
-- `GET /health` - Verificação de saúde
-- `GET /config` - Configurações (apenas em debug)
+- `GET /api/v1/` - Endpoint raiz
+- `GET /api/v1/health` - Verificação de saúde
+- `POST /api/v1/predict` - Predição de valor de casa
 
-### Endpoints de Itens
+### Endpoint de Predição
 
-- `GET /api/v1/items` - Lista todos os itens
-- `GET /api/v1/items/{id}` - Busca item por ID
-- `POST /api/v1/items` - Cria novo item
-- `PUT /api/v1/items/{id}` - Atualiza item
-- `DELETE /api/v1/items/{id}` - Remove item
+O endpoint `/api/v1/predict` recebe dados de uma casa e retorna a previsão de seu valor.
+
+**Request:**
+```json
+{
+  "quartos": 3,
+  "tamanho": 120.5,
+  "banheiros": 2
+}
+```
+
+**Response:**
+```json
+{
+  "prediction": 250000.0
+}
+```
 
 ### Exemplo de Uso
 
 ```bash
-# Listar itens
-curl http://localhost:8000/api/v1/items
-
-# Criar item
-curl -X POST http://localhost:8000/api/v1/items \
+# Predição de valor de casa
+curl -X POST http://localhost:8000/api/v1/predict \
   -H "Content-Type: application/json" \
-  -d '{"name": "Teste", "price": 99.99}'
+  -d '{"quartos": 3, "tamanho": 120.5, "banheiros": 2}'
 
-# Buscar item
-curl http://localhost:8000/api/v1/items/1
+# Health check
+curl http://localhost:8000/health
 ```
 
-## 🐳 Docker
+## Modelo de Machine Learning
 
-### Construir imagem
+O projeto utiliza um modelo Random Forest treinado para predição de valores de casas baseado em:
+- Número de quartos
+- Tamanho em metros quadrados
+- Número de banheiros
 
-```bash
-docker build -t api-simples .
-```
+O modelo está salvo em `src/models/20250805/` e inclui:
+- `scaler.pkl`: Scaler para normalização dos dados
+- `RandomForestRegressor/model.pkl`: Modelo treinado
+- `RandomForestRegressor/model_params.json`: Parâmetros do modelo
 
-### Executar container
+## Regras de Negócio
 
-```bash
-docker run -p 8000:8000 api-simples
-```
+O sistema aplica regras de negócio antes da predição:
+- Validação de número de quartos
+- Validação de tamanho da casa
+- Validação de número de banheiros
 
-### Usando o script
-
-```bash
-# Construir imagem
-./scripts/deploy.sh docker
-
-# Executar no Docker
-./scripts/deploy.sh run-docker
-
-# Parar aplicação
-./scripts/deploy.sh stop-docker
-```
-
-## 📝 Logs
+## Logs
 
 Os logs são salvos em `logs/app.log` e também exibidos no console.
 
 ### Níveis de Log
 
-- `DEBUG`: Informações detalhadas para desenvolvimento
 - `INFO`: Informações gerais da aplicação
-- `WARNING`: Avisos que não impedem a execução
 - `ERROR`: Erros que impedem operações específicas
-- `CRITICAL`: Erros críticos que podem afetar a aplicação
 
-## 🔍 Monitoramento
 
-### Health Check
+## Configuração
 
-```bash
-curl http://localhost:8000/health
-```
+### Configurações de Treinamento
 
-### Métricas
+As configurações estão em `config/settings.py`:
 
-Em modo debug, o endpoint `/config` fornece informações sobre a configuração.
+- `gen_n_samples`: Número de amostras para geração de dados
+- `gen_n_features`: Número de features
+- `gen_noise`: Ruído nos dados
+- `random_state`: Seed para reprodutibilidade
+- `test_size`: Proporção de dados de teste
+- `optuna_n_trials`: Número de tentativas para otimização
 
-## 🚀 Deploy
+## Makefile
 
-### Deploy Local
+O projeto inclui um Makefile com comandos úteis para desenvolvimento:
 
-```bash
-./scripts/deploy.sh deploy-local
-```
-
-### Deploy Completo
+### Comandos Disponíveis
 
 ```bash
-./scripts/deploy.sh deploy
+# Ver todos os comandos disponíveis
+make help
+
+# Treinar o modelo de machine learning
+make train
+
+# Formatar o código com black
+make format
+
+# Corrigir problemas de linting automaticamente
+make fix
+
+# Verificar qualidade do código
+make lint
+
+# Executar format + fix + lint
+make quality
+
+# Executar a API em modo desenvolvimento
+make run-api
 ```
 
-### Verificar Status
+### Uso dos Comandos
+
+- **`make train`**: Treina o modelo Random Forest usando os dados gerados
+- **`make format`**: Formata todo o código fonte usando Black
+- **`make fix`**: Corrige automaticamente problemas de linting detectados pelo Ruff
+- **`make lint`**: Verifica a qualidade do código sem fazer correções
+- **`make quality`**: Executa formatação, correção e verificação em sequência
+- **`make run-api`**: Inicia a API em modo desenvolvimento com hot reload
+
+### Exemplo de Fluxo de Desenvolvimento
 
 ```bash
-./scripts/deploy.sh status
+# 1. Fazer alterações no código
+# 2. Verificar e corrigir qualidade
+make quality
+
+# 3. Treinar modelo (se necessário)
+make train
+
+# 4. Executar API
+make run-api
 ```
-
-## 🤝 Contribuindo
-
-1. Fork o projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
-### Padrões de Código
-
-- Use Black para formatação
-- Siga as convenções PEP 8
-- Escreva testes para novas funcionalidades
-- Mantenha a cobertura de testes acima de 80%
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
-
-## 🆘 Suporte
-
-Se você encontrar algum problema ou tiver dúvidas:
-
-1. Verifique a documentação
-2. Execute os testes para verificar se tudo está funcionando
-3. Abra uma issue no repositório
-
-## 🔄 Changelog
-
-### v1.0.0
-- Implementação inicial da API
-- Sistema de logging configurável
-- Testes automatizados
-- Documentação completa
-- Scripts de automação

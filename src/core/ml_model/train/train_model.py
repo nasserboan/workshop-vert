@@ -13,21 +13,21 @@ nasser.boan@vert.com.br
 
 from sklearn.ensemble import RandomForestRegressor
 
-from config.settings import TrainerConfig
+from config.settings import trainer_config
 
 
 class ModelTrainer:
     """Classe para treinamento do modelo de predição de casas"""
 
-    def __init__(self, train_data: tuple, config: TrainerConfig):
+    def __init__(self, train_data: tuple, config=None):
         """
         Inicializa o treinador
 
         Args:
             train_data: Tuple com os dados de treinamento
-            config: Configurações do treinamento
+            config: Configurações do treinamento (opcional)
         """
-        self.config = config
+        self.config = config or trainer_config
         self.train_data = train_data
 
     def _train_model(self):

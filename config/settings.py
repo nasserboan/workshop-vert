@@ -4,6 +4,7 @@ Configurações da aplicação usando Pydantic
 
 from pydantic_settings import BaseSettings
 
+
 class TrainerConfig(BaseSettings):
     """
     Configurações de treinamento
@@ -17,5 +18,23 @@ class TrainerConfig(BaseSettings):
     optuna_n_trials: int = 100
 
 
-# Instância global das configurações
-settings = TrainerConfig()
+class AppConfig(BaseSettings):
+    """
+    Configurações da aplicação
+    """
+    
+    model_date: str = "20250805"
+    models_path: str = "src/models"
+    
+    @property
+    def scaler_path(self) -> str:
+        return f"{self.models_path}/{self.model_date}/scaler.pkl"
+    
+    @property
+    def model_path(self) -> str:
+        return f"{self.models_path}/{self.model_date}/RandomForestRegressor/model.pkl"
+
+
+# Instâncias globais das configurações
+trainer_config = TrainerConfig()
+app_config = AppConfig()

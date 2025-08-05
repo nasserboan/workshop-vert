@@ -27,7 +27,7 @@ class ModelSaver:
             model_name = self.model.__class__.__name__
             model_params = self.model.get_params()
             model_date = datetime.now().strftime("%Y%m%d")
-            model_path = f"models/{model_name}/{model_date}"
+            model_path = f"models/{model_date}/{model_name}"
             os.makedirs(model_path, exist_ok=True)
             with open(f"{model_path}/model_params.json", "w") as f:
                 json.dump(model_params, f)

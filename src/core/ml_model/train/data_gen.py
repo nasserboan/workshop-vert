@@ -10,19 +10,14 @@ nasser.boan@vert.com.br
 import pandas as pd
 from sklearn.datasets import make_regression
 
-from config.settings import TrainerConfig
+from config.settings import trainer_config
 
 
 class DataGenerator:
-    """Classe para geração de dados de treinamento"""
-
-    def __init__(self, trainer_config: TrainerConfig):
-        """Inicializa o gerador de dados"""
-        self.config = trainer_config
+    def __init__(self, config=None):
+        self.config = config or trainer_config
 
     def run(self):
-        """Gera dados de treinamento"""
-
         data = make_regression(
             n_samples=self.config.gen_n_samples,
             n_features=self.config.gen_n_features,

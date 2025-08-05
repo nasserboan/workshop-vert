@@ -20,19 +20,20 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
-from config.settings import TrainerConfig
+from config.settings import trainer_config
 
 
 class DataPreprocessor:
-    def __init__(self, data: pd.DataFrame, config: TrainerConfig):
+    def __init__(self, data: pd.DataFrame, config=None):
         """
         Inicializa o pré-processador de dados
 
         Args:
             data: DataFrame com os dados de treinamento (incluindo target)
+            config: Configurações (opcional)
         """
         self.data = data
-        self.config = config
+        self.config = config or trainer_config
 
     def _split_data(self):
         """

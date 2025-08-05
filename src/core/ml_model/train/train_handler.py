@@ -19,7 +19,7 @@ nasser.boan@vert.com.br
 
 from loguru import logger
 
-from config.settings import TrainerConfig
+from config.settings import trainer_config
 
 from .data_gen import DataGenerator
 from .eval import ModelEvaluator
@@ -34,9 +34,9 @@ logger.add("logs/train.log", level="INFO", rotation="10 MB")
 class ModelOrchestrator:
     """Classe para treinamento do modelo de predição de casas"""
 
-    def __init__(self, trainer_config: TrainerConfig):
+    def __init__(self, config=None):
         logger.info("Inicializando ModelTrainer")
-        self.config = trainer_config
+        self.config = config or trainer_config
 
     def _generate_data(self):
         data_generator = DataGenerator(self.config)
@@ -85,6 +85,5 @@ class ModelOrchestrator:
 
 
 if __name__ == "__main__":
-    config = TrainerConfig()
-    orchestrator = ModelOrchestrator(config)
+    orchestrator = ModelOrchestrator()
     orchestrator.run()

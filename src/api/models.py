@@ -17,14 +17,16 @@ class PredictionRequest(BaseModel):
     Recebe dados de uma casa e retorna a previsão de seu valor.
 
     Args:
-        quartos: Número de quartos.
-        tamanho: Tamanho da casa em metros quadrados.
-        banheiros: Número de banheiros.
+        quartos: Número de quartos (1-10).
+        tamanho: Tamanho da casa em metros quadrados (1-1000).
+        banheiros: Número de banheiros (1-10).
     """
 
-    quartos: int = Field(..., description="Número de quartos")
-    tamanho: float = Field(..., description="Tamanho da casa em metros quadrados")
-    banheiros: int = Field(..., description="Número de banheiros")
+    quartos: int = Field(..., gt=0, le=10, description="Número de quartos")
+    tamanho: float = Field(
+        ..., gt=0, le=1000, description="Tamanho da casa em metros quadrados"
+    )
+    banheiros: int = Field(..., gt=0, le=10, description="Número de banheiros")
 
 
 class PredictionResponse(BaseModel):
