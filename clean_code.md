@@ -4,7 +4,7 @@ Este documento apresenta algumas boas práticas de clean code aplicadas neste pr
 
 ## 1. Nomes Significativos e Descritivos
 
-### ✅ Bom: Nomes que revelam a intenção
+### Nomes que revelam a intenção
 
 ```python
 # src/api/models.py
@@ -19,7 +19,7 @@ class PredictionRequest(BaseModel):
 
 Os nomes das variáveis e classes são autoexplicativos. `PredictionRequest` deixa claro que é um modelo para requisições de predição, e os campos `quartos`, `tamanho` e `banheiros` são intuitivos.
 
-### ✅ Bom: Métodos com nomes que descrevem a ação
+### Métodos com nomes que descrevem a ação
 
 ```python
 # src/core/house_predictor.py
@@ -37,7 +37,7 @@ Cada método tem um nome que deixa claro o que ele faz, facilitando a leitura e 
 
 ## 2. Funções Pequenas e com Responsabilidade Única
 
-### ✅ Bom: Métodos focados em uma única responsabilidade
+### Métodos focados em uma única responsabilidade
 
 ```python
 # src/core/house_predictor.py
@@ -63,7 +63,7 @@ O método `predict` orquestra o fluxo principal, mas delega responsabilidades es
 
 ## 3. Comentários Significativos
 
-### ✅ Bom: Comentários que explicam o "porquê", não o "o quê"
+### Comentários que explicam o "porquê", não o "o quê"
 
 ```python
 # src/main.py
@@ -90,14 +90,14 @@ Os comentários explicam o propósito de cada seção do código, não apenas o 
 
 ## 4. Estrutura de Diretórios Organizada
 
-### ✅ Bom: Separação clara de responsabilidades
+### Separação clara de responsabilidades
 
 ```
 src/
 ├── api/           # Camada de API e endpoints
 ├── core/          # Lógica de negócio principal
 ├── utils/         # Utilitários reutilizáveis
-├── models/        # Modelos de dados
+├── models/        # Modelos de ML
 └── services/      # Serviços externos
 ```
 
@@ -105,7 +105,7 @@ A estrutura de diretórios reflete a arquitetura do sistema, facilitando a naveg
 
 ## 5. Uso de Design Patterns
 
-### ✅ Bom: Strategy Pattern para regras de negócio
+### Strategy Pattern para regras de negócio
 
 ```python
 # src/core/business/rules.py
@@ -134,7 +134,7 @@ O uso do Strategy Pattern permite adicionar novas regras de negócio sem modific
 
 ## 6. Validação de Dados com Pydantic
 
-### ✅ Bom: Validação automática e documentação
+### Validação automática e documentação
 
 ```python
 # src/api/models.py
@@ -148,7 +148,7 @@ O uso do Pydantic garante validação automática dos dados de entrada, document
 
 ## 7. Logging Estruturado
 
-### ✅ Bom: Logs informativos e estruturados
+### Logs informativos e estruturados
 
 ```python
 # src/main.py
@@ -165,7 +165,7 @@ O uso do Loguru com configuração de rotação e retenção, além de logs info
 
 ## 8. Configuração Centralizada
 
-### ✅ Bom: Configurações organizadas
+### Configurações organizadas
 
 ```python
 # src/core/house_predictor.py
@@ -181,7 +181,7 @@ As configurações são centralizadas, facilitando mudanças e evitando hardcodi
 
 ## 9. Tratamento de Erros
 
-### ✅ Bom: Tratamento explícito de casos de erro
+### Tratamento explícito de casos de erro
 
 ```python
 # src/core/house_predictor.py
@@ -196,7 +196,7 @@ O código trata explicitamente casos onde as regras de negócio são violadas, r
 
 ## 10. Testabilidade
 
-### ✅ Bom: Injeção de dependências para facilitar testes
+### Injeção de dependências para facilitar testes
 
 ```python
 # src/core/house_predictor.py
@@ -212,7 +212,7 @@ A possibilidade de injetar dependências facilita a criação de testes unitári
 
 ## 11. Documentação de API
 
-### ✅ Bom: Documentação automática com FastAPI
+### Documentação automática com FastAPI
 
 ```python
 # src/main.py
@@ -239,7 +239,7 @@ O uso do FastAPI com Pydantic gera automaticamente documentação interativa da 
 
 ## 12. Ferramentas de Qualidade de Código
 
-### ✅ Bom: Configuração de linters e formatters
+### Configuração de linters e formatters
 
 ```toml
 # pyproject.toml
